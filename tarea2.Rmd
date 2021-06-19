@@ -1,0 +1,219 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+como construir una funcion 
+
+se tienen 3 pasos basicos para construir una funcicon 
+
+1. Argumentos donde definimos valores de entrada
+
+2. Cuerpo:operaciones que se realizaran. Se deben localizar entre corchetes "{}”.
+3. Resultado valor de salida 
+
+Ejemplo de una funcion
+
+```{r}
+
+
+ hipotenusa <-function(cateto1, cateto2){
+    h<-sqrt(cateto1^2+cateto2^2)
+    data.frame(cateto1=cateto1,cateto2=cateto2,hipotenusa=h)
+
+   
+    
+        }
+hipotenusa(2:4,4:6)
+
+
+```
+
+ARGUMENTOS DE UNA FUNCION 
+
+Los argumentos son variables que necesita una funcion para reaizar sus operaciones se decaran entre parentesis separados por comas
+Los argumentos pueden ser datos, estructuras de datos, conexiones a archivos u otras funciones y todos deben tener nombres diferentes.
+
+ejempo
+
+```{r}
+area_prisma <- function(arista1, arista2, arista3) {
+arista1* arista2 * arista3
+
+
+
+}
+```
+
+
+```{r}
+area_prisma(arista1 = 3, arista2 = 6, arista3 = 9)
+```
+El argumento …
+Hay un argumento que tiene un uso especial en R, denominando … (tres puntos). Este tiene la capacidad de capturar todos los valores pasados a la función que no coinciden con ningún argumento. De este modo, podemos pasar a una función una cantidad no prefijada de valores.
+
+```{r}
+
+
+sumar_pares <- function(...)
+{
+  valores <- c(...)
+  if(!is.numeric(valores)) return('NaN')
+ 
+  contador <- 0
+  for(n in valores){
+    if(n%%2 == 0){
+      contador <- contador + n
+    }
+  }
+contador
+}
+
+sumar_pares(1:12)
+
+```
+
+Como vemos, para trabajar con los valores capturado por … podemos convertirlos a un vector con c(...) o una lista con list(...).
+
+ 
+
+Retorno de valores
+Las funciones anteriores solamente realizan una seria de pasos y finalizan sin devolver ningún valor. En muchas ocasiones deseamos que las funciones al finalizar su ejecución devuelvan algún valor. Para esto tenemos dos posibilidades.
+
+La primea es hacer que la ultima linea de código evaluada dentro de una función sea el valor que queremos que sea devuelto.
+
+```{r}
+
+
+contar_vocales <- function(frase) 
+{
+  cantidad_vocales <- 0 
+  frase <- tolower(frase)
+  frase <- strsplit(frase, "")[[1]]
+ 
+  for (i in frase)
+  {
+    if (i %in% c("a", "e", "i", "o", "u"))
+    {
+      cantidad_vocales <- cantidad_vocales + 1
+    } 
+  }
+  cantidad_vocales 
+}
+
+resultado <- contar_vocales("Hola hoa")
+resultado
+
+
+```
+La familia apply
+La familia de funciones apply es usada para aplicar una función a cada elemento de una estructura de datos. En particular, es usada para aplicar funciones en matrices, data frames, arrays y listas.
+
+La familia apply esta formada por las siguientes funciones:
+
+apply()
+eapply()
+lapply()
+mapply()
+rapply()
+sapply()
+tapply()
+vapply()
+
+Todas las funciones de esta familia tienen una característica en común: reciben como argumentos a un objeto y al menos una función.
+ 
+ 
+ funcion apply
+ 
+ apply aplica una función a todos los elementos de una matriz.
+
+La estructura de esta función es la siguiente.
+
+apply(X, MARGIN, FUN)
+
+apply tiene tres argumentos:
+
+X: Una matriz o un objeto que pueda coercionarse a una matriz, generalmente, un data frame.
+MARGIN: La dimensión (margen) que agrupará los elementos de la matriz X, para aplicarles una función. Son identificadas con números, 1 son renglones y 2 son colummnas.
+FUN: La función que aplicaremos a la matriz X en su dimención MARGIN.
+
+
+ lapply
+lapply() es un caso especial de apply(), diseñado para aplicar funciones a todos los elementos de una lista. La l de su nombre se refiere, precisamente, a lista.
+
+lapply() intentará coercionar a una lista el objeto que demos como argumento y después aplicará una función a todos sus elementos.
+
+lapply siempre nos devolverá una lista como resultado. A diferencia de apply, sabemos que siempre obtendremos ub objeto de tipo lista después de aplicar una función, sin importar cuál función sea.
+
+Dado que en R todas las estructuras de datos pueden coercionarse a una lista, lapply() puede usarse en un número más amplio de casos que apply(), además de que esto nos permite utilizar funciones que aceptan argumentos distintos a vectores.
+
+La estructura de esta función es:
+
+lapply(X, FUN)
+En donde:
+
+X es una lista o un objeto coercionable a una lista.
+FUN es la función a aplicar.
+Estos argumentos son idéntico a los de apply(), pero a diferencia aquí no especificamos MARGIN, pues las listas son estructuras con una unidimensionales, que sólo tienen largo.
+
+
+```{r}
+
+lapply(X=trees, FUN = mean)
+
+
+
+```
+eempo
+```{r}
+mi_vector <- 6:12
+resultado <- NULL
+posicion <- 1
+
+for(numero in mi_vector) {
+  resultado[posicion] <- sqrt(numero)
+  posicion <- posicion + 1
+}
+
+as.numeric(resultado)
+
+```
+
+funcion sapply()
+
+
+Las sapply() funcionan como lapply(), sino que trata de simplificar la salida a la estructura de datos primaria más que sea posible. Y, de hecho, sapply()es una función 'contenedora' para lapply().
+```{r}
+sapply(1:4, sqrt)
+```
+
+es equivaente a 
+mi_fun <- function(i) {
+    sqrt(i)
+}
+
+
+Vapply
+Devuelve un vector con la longitud que tiene cada una de las listas introducidas como parámetro.
+
+x <- list(A = 1, B = 1:3, C = 1:7)
+x
+$a
+[1] 1
+$b
+[1] 1 2 3
+$c
+[1] 1 2 3 4 5 6 7
+
+vapply(x, FUN = length, FUN.VALUE = 0L)
+a b c 
+1 3 7
+
+```{r}
+x <- list(A = 1, B = 1:3, C = 1:7)
+
+vapply(x, FUN = length, FUN.VALUE = 0L)
+
+```
+
