@@ -1,0 +1,75 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+leer archivo csv
+```{r}
+library(gapminder)
+library(dplyr) 
+
+install.packages("readr")
+library(readr)
+# buscar la ruta del archivo de csv
+file.choose()
+```
+```{r}
+
+
+
+dataset_results <- read.csv("C:\\Users\\AracelyAlvarez\\Documents\\primary_results.csv") 
+
+dataset_results
+```
+filter, arrange,mutate select
+1.
+
+```{r}
+
+dataset_results %>% 
+  filter(state== "Florida")
+
+```
+2.1
+```{r}
+
+dataset_results %>% 
+  filter(candidate== "Hillary Clinton" | candidate =="Donald Trump" ) 
+
+
+```
+2.2
+```{r}
+
+
+dataset_results %>% 
+  filter(party== "Democrat" & county =="Shelby" ) 
+  #filter (  )
+```
+2.3
+```{r}
+
+
+dataset_results %>% 
+  filter(state== "Alabama" &  votes > 15000 ) 
+
+```
+
+3-select
+
+```{r}
+
+dataset_results %>% 
+  filter(state== "Texas" &  county== "Denton") 
+  #select("party" & "candidate" & "votes")
+ 
+
+ 
+
+```
+```{r}
+library(tidyverse)
+library(dbplyr) 
+dataset_results %>% select(party, candidate, votes)
+```
+
