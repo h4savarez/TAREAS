@@ -2,27 +2,20 @@
 title: "R Notebook"
 output: html_notebook
 ---
+TAREA_3
 
 leer archivo csv
+
+
 ```{r}
-library(gapminder)
+
 library(dplyr) 
 
-install.packages("readr")
-library(readr)
-# buscar la ruta del archivo de csv
-file.choose()
-```
-```{r}
-
-
-
-dataset_results <- read.csv("C:\\Users\\AracelyAlvarez\\Documents\\primary_results.csv") 
-
+dataset_results <- read.csv("primary_results.csv")
 dataset_results
 ```
 filter, arrange,mutate select
-1.
+1.1 Filtrar todos los votos del estado de Florida.
 
 ```{r}
 
@@ -30,7 +23,7 @@ dataset_results %>%
   filter(state== "Florida")
 
 ```
-2.1
+2.1 Filtrar votos para los candidatos Hillary Clinton o Donal Trump
 ```{r}
 
 dataset_results %>% 
@@ -38,7 +31,7 @@ dataset_results %>%
 
 
 ```
-2.2
+2.2 Filtrar votos para el partido Democrata y el condado Shelby
 ```{r}
 
 
@@ -46,7 +39,7 @@ dataset_results %>%
   filter(party== "Democrat" & county =="Shelby" ) 
   #filter (  )
 ```
-2.3
+2.3 Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a 15000
 ```{r}
 
 
@@ -56,20 +49,29 @@ dataset_results %>%
 ```
 
 3-select
+3.1 Filtrar votos para el estado de Texas y que el condado Denton, seleccionar columnas party, candidate, votes, y ordenar descendente por la columna votes
 
 ```{r}
 
 dataset_results %>% 
-  filter(state== "Texas" &  county== "Denton") 
-  #select("party" & "candidate" & "votes")
- 
+  filter(state== "Texas" &  county== "Denton") %>% 
+  select(party, candidate, votes)%>%
+ arrange(desc(votes))
 
  
 
 ```
+
+ 4.Utilice el verbo mutate y arrange 
+ 
 ```{r}
-library(tidyverse)
-library(dbplyr) 
-dataset_results %>% select(party, candidate, votes)
-```
 
+dataset_results %>% 
+  filter(party == "Republican", candidate == "Ted Cruz", state =="Alaska") %>% 
+  
+  mutate(vote_count = votes/fraction_votes) %>%
+  arrange(desc(vote_count))
+
+```
+ 
+ 
